@@ -1,16 +1,136 @@
 <!DOCTYPE html>
-
 <html>
-
 <head>
-	<link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #1e90ff;
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            text-align: left;
+            width: 300px;
+            margin-bottom: 5px;
+        }
+        .form-group input {
+            width: 300px;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .form-group button {
+            background-color: #1e90ff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .form-group button:hover {
+            background-color: #1c86ee;
+        }
+        .table {
+            width: 80%;
+            margin: 0 auto;
+            border-collapse: collapse;
+        }
+        .table-striped th,
+        .table-striped td {
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+        .table-striped th {
+            background-color: #f5f5f5;
+        }
+        .table-striped tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .delete {
+            background-color: #ff4444;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .delete:hover {
+            background-color: #ff6666;
+        }
+    </style>
 </head>
-
 <body>
-	<!-- the entire body must be written by student -->
-    <script type="text/javascript" src="./script.js">
-</script>
+    <h1>MyBookList</h1>
+    <div class="form-group">
+        <label>Title</label>
+        <input type="text" id="title">
+        <label>Author</label>
+        <input type="text" id="author">
+        <label>ISBN#</label>
+        <input type="text" id="isbn">
+        <button id="submit">Add Book</button>
+    </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>ISBN#</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="book-list">
+        </tbody>
+    </table>
+    <script>
+        document.getElementById('submit').addEventListener('click', (e) => {
+            e.preventDefault();
 
+            const title = document.getElementById('title').value.trim();
+            const author = document.getElementById('author').value.trim();
+            const isbn = document.getElementById('isbn').value.trim();
+
+            if (title && author && isbn) {
+                const bookList = document.getElementById('book-list');
+                const row = document.createElement('tr');
+
+                row.innerHTML = `
+                    <td>${title}</td>
+                    <td>${author}</td>
+                    <td>${isbn}</td>
+                    <td><button class="delete">X</button></td>
+                `;
+
+                bookList.appendChild(row);
+
+                // Clear the form inputs
+                document.getElementById('title').value = '';
+                document.getElementById('author').value = '';
+                document.getElementById('isbn').value = '';
+            } else {
+                alert('Please fill in all fields!');
+            }
+        });
+
+        // Event delegation for delete buttons
+        document.getElementById('book-list').addEventListener('click', (e) => {
+            if (e.target.classList.contains('delete')) {
+                e.target.parentElement.parentElement.remove();
+            }
+        });
+    </script>
 </body>
-
 </html>
